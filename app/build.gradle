@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile "com.android.support:appcompat-v7:24.1.1"
+    compile "com.android.support:appcompat-v7:23.4.0"
+    compile "com.tencent.tinker:tinker-server-android:0.3.0"
     compile("com.tencent.tinker:tinker-android-lib:${TINKER_VERSION}") { changing = true }
     provided("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") { changing = true }
 
@@ -39,8 +39,8 @@ def gitSha() {
 def javaVersion = JavaVersion.VERSION_1_7
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
 
     compileOptions {
         sourceCompatibility javaVersion
@@ -78,7 +78,7 @@ android {
         minSdkVersion 10
         targetSdkVersion 22
         versionCode 1
-        versionName "1.0.4"
+        versionName "1.0.7"
         /**
          * you can use multiDex and install it in your ApplicationLifeCycle implement
          */
@@ -101,6 +101,10 @@ android {
          */
         buildConfigField "String", "TINKER_ID", "\"${getTinkerIdValue()}\""
         buildConfigField "String", "PLATFORM",  "\"all\""
+
+        //tinker server
+        buildConfigField "String", "APP_KEY", "\"392922ac60061245\""
+        buildConfigField "String", "APP_VERSION",  "\"${versionName}\""
     }
 
 //    aaptOptions{
@@ -344,6 +348,7 @@ if (buildWithTinker()) {
              * we will get the TINKER_ID from the old apk manifest for you automatic,
              * other config files (such as patchMessage below)is not necessary
              */
+            //todo 每次升级时，填写升级信息
             configField("patchMessage", "tinker is sample to use")
             /**
              * just a sample case, you can use such as sdkVersion, brand, channel...
@@ -352,9 +357,10 @@ if (buildWithTinker()) {
              */
             configField("platform", "all")
             /**
-             * patch version via packageConfig
+             * tinker server needed. patch version via packageConfig
              */
-            configField("patchVersion", "1.0")
+//            configField("patchVersion", "1.0.7")
+            configField("patchVersion", android.defaultConfig.versionName)
         }
         //or you can add config filed outside, or get meta value from old apk
         //project.tinkerPatch.packageConfig.configField("test1", project.tinkerPatch.packageConfig.getMetaDataFromOldApk("Test"))

@@ -1,10 +1,12 @@
-# 微信热补丁 `tinker` 官方示例, 持续更新
+# 微信热补丁 `tinker` 及 `tinker server` 官方示例
 
 [![Build Status](https://travis-ci.org/jp1017/tinker-sample-android.svg?branch=master)](https://travis-ci.org/jp1017/tinker-sample-android)
 
 <img src="http://7xlah4.com1.z0.glb.clouddn.com/2016-11-25-10-52-25-294_tinker.sample..png" width="320"/> <img src="http://7xlah4.com1.z0.glb.clouddn.com/2016-11-25-10-51-57-743_tinker.sample..png" width="320"/>
 
 # 版本说明
+
+## v1.0.6 增加tinker server
 
 ## v1.0.3 add CI
 
@@ -61,6 +63,12 @@ def getTinkerIdValue() {
 
 4 修改tinker message 为 `I am the patch apk-v版本号`
 
+5 修改patchVersion为版本号, 这个在tinker server需要
+
+```
+-configField("patchVersion", "1.0.7")
++configField("patchVersion", android.defaultConfig.versionName)
+```
 
 
 **注意** 里面有些修改的地方, 包名修改为你的包名等, 我用todo做了标记
@@ -134,6 +142,68 @@ flags = ShareConstants.TINKER_ENABLE_ALL)
 
 >boolean isPatched = tinker.isTinkerLoaded();
 
+# tinker server　接入及使用
+
+tinker server　提供tinker补丁包下发及监控等, 使用也是很简单
+
+## gradle 配置环境
+
+1 gradle远程仓库依赖jcenter
+
+```
+repositories {
+    jcenter()
+}
+```
+
+2 再添加sdk库的dependencies依赖:
+```
+dependencies {
+    compile("com.tencent.tinker:tinker-server-android:0.3.0")
+}
+```
+
+3 在 TinkerPatch 平台中得到的 AppKey 以及 AppVersion，将他们写入 buildConfig 中:
+
+比如:
+
+```
+buildConfigField "String", "APP_KEY", "\"f938475486f91936\""
+buildConfigField "String", "APP_VERSION",  "\"3.0.0\""
+```
+平台链接: [tinkerpatch.com](http://tinkerpatch.com/)
+
+新增app后可以得到AppKey, 至于AppVersion, 就是补丁的版本, 我这里都是版本号, 可以参考这个issue: [关于AppVersion问题](https://github.com/simpleton/tinker_server_client/issues/2)
+
+4 清单配置网络及sd卡读写权限
+
+```
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+```
+
+
+## 代码初始化
+
+>TinkerServerManager.installTinkerServer(getApplication(), Tinker.with(getApplication()), 3);
+
+后面的3表示每隔3小时请求一次服务器, 检查是否有更新包
+
+## 请求更新补丁
+
+1 主动请求更新
+
+> TinkerServerManager.checkTinkerUpdate(true);
+
+2 获取新增参数
+
+>TinkerServerManager.getDynamicConfig(new ConfigRequestCallback() {...
+
+下面来一个该demo的tinker server 截图:
+
+![tinker_server](http://7xlah4.com1.z0.glb.clouddn.com/20161125183501tinker_server.png)
+
 # 参考
 
 更多使用及问题请参考官方文档:
@@ -147,3 +217,5 @@ flags = ShareConstants.TINKER_ENABLE_ALL)
 [Tinker 自定义扩展](https://github.com/Tencent/tinker/wiki/Tinker-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%89%A9%E5%B1%95)
 
 [Tinker 常见问题](https://github.com/Tencent/tinker/wiki/Tinker-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)
+
+[平台使用文档](http://tinkerpatch.com/Docs/api)

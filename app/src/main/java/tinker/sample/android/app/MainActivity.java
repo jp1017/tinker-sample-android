@@ -29,14 +29,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tencent.tinker.lib.tinker.Tinker;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
+import com.tencent.tinker.lib.util.TinkerLog;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
 import com.tencent.tinker.loader.shareutil.ShareTinkerInternals;
+import com.tencent.tinker.server.client.ConfigRequestCallback;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import tinker.sample.android.BuildConfig;
 import tinker.sample.android.R;
+import tinker.sample.android.patchserver.TinkerServerManager;
 import tinker.sample.android.util.Utils;
 
 public class MainActivity extends AppCompatActivity {
@@ -76,6 +83,50 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button requestPatchButton = (Button) findViewById(R.id.requestPatch);
+
+        //请求更新补丁
+        requestPatchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TinkerServerManager.checkTinkerUpdate(true);
+            }
+        });
+
+        Button requestConfigButton = (Button) findViewById(R.id.requestConfig);
+
+        //请求新增参数
+        requestConfigButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TinkerServerManager.getDynamicConfig(new ConfigRequestCallback() {
+                    @Override
+                    public void onSuccess(String s) {
+                        final String config = unicodeToString(s);
+                        TinkerLog.w(TAG, "request config success, config:" + config);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MainActivity.this, "获取到新增参数: " + config, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFail(Exception e) {
+                        TinkerLog.w(TAG, "request config failed, exception:" + e);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MainActivity.this, "获取新增参数异常", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }, true);
+            }
+        });
+
         Button cleanPatchButton = (Button) findViewById(R.id.cleanPatch);
 
         //卸载补丁
@@ -106,6 +157,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    /**
+     * unicode to 中文
+     * @param str
+     * @return
+     */
+    public static String unicodeToString(String str) {
+
+        Pattern pattern = Pattern.compile("(\\\\u(\\p{XDigit}{4}))");
+        Matcher matcher = pattern.matcher(str);
+        char ch;
+        while (matcher.find()) {
+            ch = (char) Integer.parseInt(matcher.group(2), 16);
+            str = str.replace(matcher.group(1), ch + "");
+        }
+        return str;
+    }
+
 
     public boolean showInfo(Context context) {
         // add more Build Info

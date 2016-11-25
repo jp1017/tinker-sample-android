@@ -26,12 +26,14 @@ import android.os.Build;
 import android.support.multidex.MultiDex;
 
 import com.tencent.tinker.anno.DefaultLifeCycle;
+import com.tencent.tinker.lib.tinker.Tinker;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
 import com.tencent.tinker.loader.app.ApplicationLifeCycle;
 import com.tencent.tinker.loader.app.DefaultApplicationLike;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
 
 import tinker.sample.android.Log.MyLogImp;
+import tinker.sample.android.patchserver.TinkerServerManager;
 import tinker.sample.android.util.SampleApplicationContext;
 import tinker.sample.android.util.TinkerManager;
 
@@ -95,6 +97,12 @@ public class SampleApplicationLike extends DefaultApplicationLike {
         //installTinker after load multiDex
         //or you can put com.tencent.tinker.** to main dex
         TinkerManager.installTinker(this);
+
+
+        //初始化TinkerPatch 服务器 SDK
+        TinkerServerManager.installTinkerServer(getApplication(), Tinker.with(getApplication()), 3);
+        //每隔访问三小时服务器是否有更新
+        TinkerServerManager.checkTinkerUpdate(false);
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)

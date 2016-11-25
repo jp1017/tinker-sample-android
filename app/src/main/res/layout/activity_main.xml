@@ -13,7 +13,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sample patch!"/>
+        android:text="Tinker Patch Sample!"/>
 
     <Button
         android:id="@+id/loadPatch"
@@ -22,7 +22,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textView"
-        android:text="load patch"/>
+        android:text="加载本地补丁"/>
 
     <Button
         android:id="@+id/loadLibrary"
@@ -31,7 +31,26 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/loadPatch"
-        android:text="load library"/>
+        android:text="加载本地库"/>
+
+
+    <Button
+        android:id="@+id/requestPatch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/loadLibrary"
+        android:text="请求远程补丁"/>
+
+    <Button
+        android:id="@+id/requestConfig"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/requestPatch"
+        android:text="请求远程新增参数"/>
 
     <Button
         android:id="@+id/cleanPatch"
@@ -39,8 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/loadLibrary"
-        android:text="clean patch"/>
+        android:layout_below="@+id/requestConfig"
+        android:text="卸载补丁"/>
     <Button
         android:id="@+id/killSelf"
         android:layout_width="wrap_content"
@@ -48,7 +67,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/cleanPatch"
-        android:text="kill self"/>
+        android:text="关闭app"/>
     <Button
         android:id="@+id/showInfo"
         android:layout_width="wrap_content"
@@ -56,5 +75,5 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/killSelf"
-        android:text="show info"/>
+        android:text="显示信息"/>
 </RelativeLayout>
