@@ -1,0 +1,24 @@
+language: android
+jdk: openjdk7
+sudo: false
+android:
+  components:
+  - tools
+  - platform-tools
+  - build-tools-23.0.2
+  - android-23
+  - extra-google-m2repository
+  - extra-android-m2repository
+git:
+  submodules: false
+before_install:
+- chmod +x gradlew
+script:
+- "./gradlew assembleDebug"
+deploy:
+  provider: releases
+  api_key:
+    secure: b3myAZkOrcdhnXlvd+mwoWDCQfk3KUJHSbEv1pGacUO3pUHrJhD/pUIpMJXb0VwbtIxkIELV55SGDRfUPApN+9yk+rkRw/KU+luUtq8HaDq+bkNLCa4pOilD4XpHGpYtDnNkKrAaxQ8cPO4KFmriqAhzUs8c7IFYdYLYT1k8s0pzpHoiFdnFIqUQ7k7tAtBn2W9cyLAQdwPwVF1TBDw62mMNdeEYgjUq5uD+3rF7gZi5lAEXiwmP2GgJxOLsb7sQwy9HaoUfFPQujg3VM2VYnzkZKmwDZp9w7bcxZgadEWVz3nWieSxaXqfkK9WGyraU6RWRrKgOzZnK6L8ai7qhahZ3hSxVVbikbcQTX9OBmssT0Of/j+sChDQnAH/MaAdCRHF8PQLJoEaagmBlpDzcnwyOPNAWlJ2EF7IfO6EEYVkyx6X3lJAZGGwO/Ip3OWDJ3Z0FVXnwG/hqAXMVkFLwv0t9zrFMjGMNIQ4PUDp/EFPtXt0Xr871xbbbH1HvHuz95BDCwH0PXVoXxCgVWuvfSUZHNUS8SNywcR/lqX5YpliBLdaVElTX1O+CzM4HBQBASo2RU28VwBxO+8JDzMxCG0W+sVHr0Ah2IDC7RRrj0yXBVWuSkNOmo3TiT8jjKKaBPfvQ+cniYPSz9iTUmq63ONmsh8QWIa0Lbf+wgRNLF34=
+  file: ''
+  on:
+    repo: jp1017/tinker-sample-android
