@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jp1017/tinker-sample-android.svg?branch=master)](https://travis-ci.org/jp1017/tinker-sample-android)
 
-<img src="http://7xlah4.com1.z0.glb.clouddn.com/2016-11-25-10-52-25-294_tinker.sample..png" width="320"/> <img src="http://7xlah4.com1.z0.glb.clouddn.com/2016-11-25-10-51-57-743_tinker.sample..png" width="320"/>
+<img src="http://7xlah4.com1.z0.glb.clouddn.com/2016-11-25-16-23-56-729_tinker.sample..png" width="320"/> <img src="http://7xlah4.com1.z0.glb.clouddn.com/2016-11-25-18-57-32-149_tinker.sample..png" width="320"/>
 
 # 版本说明
 
