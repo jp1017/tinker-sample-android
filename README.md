@@ -1,8 +1,12 @@
 # 微信热补丁 `tinker` 官方示例, 持续更新
 
+[![Build Status](https://travis-ci.org/jp1017/tinker-sample-android.svg?branch=master)](https://travis-ci.org/jp1017/tinker-sample-android)
+
+<img src="http://7xlah4.com1.z0.glb.clouddn.com/2016-11-25-10-52-25-294_tinker.sample..png" width="320"/> <img src="http://7xlah4.com1.z0.glb.clouddn.com/2016-11-25-10-51-57-743_tinker.sample..png" width="320"/>
+
 # 版本说明
 
-## v1.0.3 add ci
+## v1.0.3 add CI
 
 ## v1.0.2 补丁测试
 
@@ -44,15 +48,19 @@ dependencies {
 
 我做了如下修改:
 
-1. 修改tinkerid为版本号, 跳过了需要commit一次的坑:smile:
+1 修改tinkerid为版本号, 跳过了需要commit一次的坑:smile:
 ```
 def getTinkerIdValue() {
     //版本作为id
     return android.defaultConfig.versionName
 }
 ```
-1. 移动备份文件到/tinker/bakApk/下, 防止clean掉基础包文件
-1. 重命名备份文件, 比如`base-app-debug-v1.0.1-2016-1125.apk`, 当然自动生成的是`app-debug-v1.0.1-2016-1125.apk`, 需要手动添加前缀作为基础包, 后面多次编译不会把基础包覆盖掉, 也不会像官方demo里那样以秒命名产生很多文件...
+2 移动备份文件到/tinker/bakApk/下, 防止clean掉基础包文件
+
+3 重命名备份文件, 比如`base-app-debug-v1.0.1-2016-1125.apk`, 当然自动生成的是`app-debug-v1.0.1-2016-1125.apk`, 需要手动添加前缀作为基础包, 后面多次编译不会把基础包覆盖掉, 也不会像官方demo里那样以秒命名产生很多文件...
+
+4 修改tinker message 为 `I am the patch apk-v版本号`
+
 
 
 **注意** 里面有些修改的地方, 包名修改为你的包名等, 我用todo做了标记
@@ -101,5 +109,37 @@ flags = ShareConstants.TINKER_ENABLE_ALL)
 
 ![patch](http://7xlah4.com1.z0.glb.clouddn.com/20161125130855tinker1.png)
 
+## 安装及卸载补丁
 
+### 加载补丁
+第二个参数是补丁包存放路径, 名称任意, 可以不以 `.bak` 结尾
 
+>TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), patchPath);
+
+还可以自定义加载成功等交互, 请参考 `SampleResultService`, 别忘记添加进清单
+
+### 清除补丁
+
+当补丁出现异常或者某些情况，我们可能希望清空全部补丁，调用方法为：
+
+>Tinker.with(context).cleanPatch();
+
+当然我们也可以选择卸载某个版本的补丁文件：
+
+>Tinker.with(context).cleanPatchByVersion();
+
+在升级版本时我们也无须手动去清除补丁，框架已经为我们做了这件事情。需要注意的是，在补丁已经加载的前提下清除补丁，可能会引起crash。这个时候更好重启一下所有的进程。
+
+### 查看补丁是否加载
+
+>boolean isPatched = tinker.isTinkerLoaded();
+
+# 参考
+
+更多使用及问题请参考官方文档:
+
+[Tinker -- 微信Android热补丁方案](https://github.com/Tencent/tinker/wiki)
+[Tinker 接入指南](https://github.com/Tencent/tinker/wiki/Tinker-%E6%8E%A5%E5%85%A5%E6%8C%87%E5%8D%97)
+[Tinker API概览](https://github.com/Tencent/tinker/wiki/Tinker-API%E6%A6%82%E8%A7%88)
+[Tinker 自定义扩展](https://github.com/Tencent/tinker/wiki/Tinker-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%89%A9%E5%B1%95)
+[Tinker 常见问题](https://github.com/Tencent/tinker/wiki/Tinker-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)

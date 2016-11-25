@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         // add more Build Info
         final StringBuilder sb = new StringBuilder();
         Tinker tinker = Tinker.with(getApplicationContext());
+        //判断补丁是否加载
         if (tinker.isTinkerLoaded()) {
             sb.append(String.format("[patch is loaded] \n"));
             sb.append(String.format("[buildConfig TINKER_ID] %s \n", BuildConfig.TINKER_ID));
