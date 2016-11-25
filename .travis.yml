@@ -1,12 +1,12 @@
 language: android
-jdk: openjdk7
+jdk: openjdk8
 sudo: false
 android:
   components:
   - tools
   - platform-tools
-  - build-tools-23.0.2
-  - android-23
+  - build-tools-24.0.3
+  - android-24
   - extra-google-m2repository
   - extra-android-m2repository
 git:

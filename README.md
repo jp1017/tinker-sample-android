@@ -92,7 +92,7 @@ flags = ShareConstants.TINKER_ENABLE_ALL)
 打release补丁: `./gradlew tinkerReleaseDebug`
 
 这里需要注意, 命令在linux和mac下最好是`./gradlew`, 意思是当前项目的gradlew, 如果写成`gradlew`可以会去下载gradle等, 因为那是全局的, 比如AS2.2.2带的版本是2.14.1
-而我现在的是最新版本3.2.1, 可输入`./gradlew -v` 和 'gradlew -v'　查看
+而我现在的是最新版本3.2.1, 可输入`./gradlew -v` 和 `gradlew -v`　查看
 而windows就可以是`gradlew`
 
 **注意** debug和release配置的基包不同, 和他们一一对应, 另外, release还需要配置mapping文件.
@@ -139,7 +139,11 @@ flags = ShareConstants.TINKER_ENABLE_ALL)
 更多使用及问题请参考官方文档:
 
 [Tinker -- 微信Android热补丁方案](https://github.com/Tencent/tinker/wiki)
+
 [Tinker 接入指南](https://github.com/Tencent/tinker/wiki/Tinker-%E6%8E%A5%E5%85%A5%E6%8C%87%E5%8D%97)
+
 [Tinker API概览](https://github.com/Tencent/tinker/wiki/Tinker-API%E6%A6%82%E8%A7%88)
+
 [Tinker 自定义扩展](https://github.com/Tencent/tinker/wiki/Tinker-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%89%A9%E5%B1%95)
+
 [Tinker 常见问题](https://github.com/Tencent/tinker/wiki/Tinker-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)
